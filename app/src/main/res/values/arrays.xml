@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transfer_mode">
+        <item>FTP</item>
+        <item>HTTP</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>English</item>
+        <item>Francais</item>
+    </string-array>
+
+    <string-array name="language_value">
+        <item>eng</item>
+        <item>fr</item>
+        <item>cn</item>
+    </string-array>
+</resources>

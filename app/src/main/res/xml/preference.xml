@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="pref_sync"
-        android:title="pref_sync"
-        android:summary="pref_sync_summ"
-        android:defaultValue="true" />
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Data Transfer Setting">\
+        <EditTextPreference
+            android:defaultValue="@string/transfer_root"
+            android:key="transfer_root"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/transfer_root"
+            android:title="Transfer Root Path" />
+        <EditTextPreference
+            android:defaultValue="@string/transfer_ip"
+            android:summary="@string/transfer_ip"
+            android:key="transfer_ip"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="IP Address" />
+        <ListPreference
+            android:defaultValue="@string/transfer_mode"
+            android:summary="@string/transfer_mode"
+            android:entries="@array/transfer_mode"
+            android:entryValues="@array/transfer_mode"
+            android:key="transfer_mode"
+            android:title="Transfer Mode" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Image Setting">
+
+        <EditTextPreference
+            android:defaultValue="100"
+            android:key="image_size_limit"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Image Size Limit" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Language Setting">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/language"
+            android:entryValues="@array/language_value"
+            android:key="language"
+            android:title="Language" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/language_value"
+            android:entryValues="@array/language"
+            android:key="list_preference_1"
+            android:title="List prefer" />
+    </PreferenceCategory>
 </PreferenceScreen>
