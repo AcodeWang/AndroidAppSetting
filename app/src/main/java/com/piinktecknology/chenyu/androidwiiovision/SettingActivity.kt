@@ -3,15 +3,15 @@ package com.piinktecknology.chenyu.androidwiiovision
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 
 /**
  * Created by chenyu on 20/03/2018.
  */
 
-class SettingActivity : AppCompatActivity(), ISettingHelper{
+class SettingActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,27 +21,37 @@ class SettingActivity : AppCompatActivity(), ISettingHelper{
         fragmentManager.beginTransaction().replace(android.R.id.content, SettingFragment()).commit()
     }
 
-    override fun getSettingEntryFromSharedPreference(context:Context):SettingEntry{
+    fun getSettingEntryFromSharedPreference():SettingEntry{
 
-        val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
-        var rootPath = mSharedPreferences.getString("transfer_root",context.getString(R.string.transfer_root))
-        var ip = mSharedPreferences.getString("transfer_ip",context.getString(R.string.transfer_ip))
-        var transferMode = mSharedPreferences.getString("transfer_mode",context.getString(R.string.transfer_mode))
+        var rootPath = mSharedPreferences.getString("transfer_root",applicationContext.getString(R.string.transfer_root))
+        var ip = mSharedPreferences.getString("transfer_ip",applicationContext.getString(R.string.transfer_ip))
+        var transferMode = mSharedPreferences.getString("transfer_mode",applicationContext.getString(R.string.transfer_mode))
 
         var settingEntry = SettingEntry(rootPath, ip, transferMode)
         return settingEntry
     }
 
-    override fun setSettingEntry(rootPath:String, ip:String, transferMode:String, context: Context) {
+    fun getPreferencesFragment():PreferenceFragment{
+        return fragmentManager.findFragmentById(android.R.id.content) as PreferenceFragment
+    }
 
-        val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val mEditor = mSharedPreferences.edit()
+    override fun onResume() {
+        super.onResume()
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).registerOnSharedPreferenceChangeListener(this)
+    }
 
-        mEditor.putString("transfer_root",rootPath)
-        mEditor.putString("transfer_ip",ip)
-        mEditor.putString("transfer_mode", transferMode)
-        mEditor.commit()
+    override fun onDestroy() {
+        super.onDestroy()
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    //When preference changed set the UI summary
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        val mPreferenceFragment = getPreferencesFragment()
+        val changedPreferenced = mPreferenceFragment.findPreference(key)
+        changedPreferenced.setSummary(sharedPreferences.getString(key,""))
     }
 }
 

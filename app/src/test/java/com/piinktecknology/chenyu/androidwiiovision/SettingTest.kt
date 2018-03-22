@@ -31,9 +31,6 @@ class SettingTest{
     lateinit var appContext : Context
 
     @Mock
-    lateinit var settingHelper:ISettingHelper
-
-    @Mock
     lateinit var mSharedPreferences:SharedPreferences
     @Mock
     lateinit var mEditor:SharedPreferences.Editor
@@ -59,9 +56,9 @@ class SettingTest{
     @Test
     fun settingGetPreferecesTest(){
 
-        Mockito.`when`(setting.getSettingEntryFromSharedPreference(appContext)).thenReturn(settingEntry)
+        Mockito.`when`(setting.getSettingEntryFromSharedPreference()).thenReturn(settingEntry)
 
-        Assert.assertEquals(settingEntry, setting.getSettingEntryFromSharedPreference(appContext))
+        Assert.assertEquals(settingEntry, setting.getSettingEntryFromSharedPreference())
 
     }
 
