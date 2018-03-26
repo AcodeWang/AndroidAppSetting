@@ -53,13 +53,4 @@ class SettingTest{
 //        Assert.assertEquals(true,mEditor.commit())
     }
 
-    @Test
-    fun settingGetPreferecesTest(){
-
-        Mockito.`when`(setting.getSettingEntryFromSharedPreference()).thenReturn(settingEntry)
-
-        Assert.assertEquals(settingEntry, setting.getSettingEntryFromSharedPreference())
-
-    }
-
 }

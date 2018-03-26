@@ -1,12 +1,13 @@
 package com.piinktecknology.chenyu.androidwiiovision
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
-import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -15,7 +16,10 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-
+    var profileName = ""
+    var photoPath = ""
+    var rootPath = ""
+    var mCurrentPhotoPath = ""
     val REQUEST_TAKE_PHOTO= 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +31,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //PhotoButton Click, check the root and file dir, start image capture activity
         photoButton.setOnClickListener(){
 
-            var path = pathEditText.text.toString()
-            if(path.equals(null)){
-                path = "Default"
+            //Set the photo path as the profile name
+            profileName = profileNameEditText.text.toString()
+            if(profileName.equals("")) {
+                photoPath = "Default"
+            }
+            else{
+                photoPath = profileName
             }
 
-            checkPathMakeDir(path)
+            checkPathMakeDir(photoPath)
+            takePhoto(photoPath)
         }
     }
 
@@ -43,36 +53,64 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
-            takePhoto()
+            takePhoto(photoPath)
         }
-        else{
+        else if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_CANCELED){
+            //Delete the very last image when return from the capture
+            val lastFile = File(mCurrentPhotoPath)
+            lastFile.delete()
 
+            val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + photoPath)
+            if(photoDir.listFiles().size > 0){
+                val intent = Intent(applicationContext, GalleryActivity::class.java)
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 
-    fun checkPathMakeDir(path: String) {
+    fun checkPathMakeDir( path: String) {
 
-        val fullPathFile = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + path)
+        rootPath = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("transfer_root", "")
 
+        if(rootPath.equals("")){
+            rootPath = "DEFAULT"
+        }
+
+        val rootPathFile = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath)
+        //check the root path and make dir if not existed
+        if(rootPathFile.exists()){
+            if(!rootPathFile.isDirectory){
+                throw PathException("path exsit but not a directory")
+            }
+        }
+        else{
+            val newFile = File(Environment.DIRECTORY_PICTURES + "/" + rootPath)
+        }
+
+        val fullPathFile = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
+        //check the profile path and make dir if not existed
         if(fullPathFile.exists()){
             if(!fullPathFile.isDirectory){
                 throw PathException("path exsit but not a directory")
             }
         }
         else{
-            val newFile = File(Environment.DIRECTORY_PICTURES + "/" + path)
+            val newFile = File(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
         }
     }
 
-    fun takePhoto() {
+    //Start the IMAGE_CAPTURE activity and save the captured photo by file provider
+    fun takePhoto(path: String) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(packageManager) != null) {
 
             try{
-                CameraActivity.photoFile = createPhotoFile()
+                val photoFile = createPhotoFile(path)
                 val photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
-                        CameraActivity.photoFile)
+                        photoFile)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
@@ -82,19 +120,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Create the photo file with time stamp
     @Throws(IOException::class)
-    fun createPhotoFile(): File {
+    fun createPhotoFile(path: String): File {
         // Create an image file name
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val timeStamp = SimpleDateFormat("ddMMyyyy_HHmmss").format(Date())
+        val imageFileName = timeStamp
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
         val image = File.createTempFile(
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir      /* directory */
         )
         // Save a file: path for use with ACTION_VIEW intents
-        var mCurrentPhotoPath = image.getAbsolutePath()
+        mCurrentPhotoPath = image.getAbsolutePath()
         return image
     }
 

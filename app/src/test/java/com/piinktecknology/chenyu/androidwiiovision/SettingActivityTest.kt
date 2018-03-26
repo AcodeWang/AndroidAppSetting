@@ -16,6 +16,7 @@ import org.junit.Test
 class SettingActivityTest(){
 
     val IP_KEY = "transfer_ip"
+    val ROOT_KEY = "transfer_root"
     val newIP = "192.168.1.101"
 
     val settingActivity = Robolectric.setupActivity(SettingActivity::class.java)
@@ -27,13 +28,17 @@ class SettingActivityTest(){
     @Before
     fun initSetting(){
 
-//        Assert.assertEquals(true,resualt)
     }
 
     @Test
-    fun getSettingFromSharedPreferencesTest(){
+    fun initSummaryTest(){
+        Assert.assertEquals(mSharedPreferences.getString(ROOT_KEY,""), settingFragment.findPreference(ROOT_KEY).summary)
+    }
+
+    @Test
+    fun getSettingFromPreferencesFragmentTest(){
         val settingEntry = settingActivity.getSettingEntryFromSharedPreference()
-        Assert.assertEquals(settingActivity.applicationContext.getString(R.string.transfer_mode), settingEntry.ip)
+        Assert.assertEquals(settingActivity.applicationContext.getString(R.string.transfer_mode), settingEntry.transfermode)
     }
 
 
@@ -46,7 +51,6 @@ class SettingActivityTest(){
 
         Assert.assertEquals("If the value is changed",newIP,mSharedPreferences.getString(IP_KEY,""))
         Assert.assertEquals("If the summary is changed", newIP,ipPreference.summary)
-
     }
 
 }
