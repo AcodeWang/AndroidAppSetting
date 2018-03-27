@@ -19,12 +19,6 @@ import android.view.ViewGroup
  */
 class HeaderFragment : Fragment() {
 
-    companion object {
-        fun newInstaance():HeaderFragment{
-            return HeaderFragment()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

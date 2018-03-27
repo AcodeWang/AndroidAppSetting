@@ -8,6 +8,7 @@ import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -46,6 +47,11 @@ class MainActivity : AppCompatActivity() {
             checkPathMakeDir(photoPath)
             takePhoto(photoPath)
         }
+
+
+        if(intent.action == "clickPhotoBtn") {
+            photoButton.performClick()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,9 +67,11 @@ class MainActivity : AppCompatActivity() {
             lastFile.delete()
 
             val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + photoPath)
+            Log.d("datacount", photoDir.listFiles().size.toString())
             if(photoDir.listFiles().size > 0){
                 val intent = Intent(applicationContext, GalleryActivity::class.java)
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra("rootPath",rootPath)
+                intent.putExtra("photoPath", photoPath)
                 startActivity(intent)
                 finish()
             }
