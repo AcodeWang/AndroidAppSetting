@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.piinktecknology.chenyu.androidwiiovision.HeaderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:id="@+id/header2"
         android:layout_width="wrap_content"

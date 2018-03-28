@@ -29,4 +29,4 @@ class HeaderFragment : Fragment() {
         return inflater!!.inflate(R.layout.fragment_header, container, false)
     }
 
-}// Required empty public constructor
+}

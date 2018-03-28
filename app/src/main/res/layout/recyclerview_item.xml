@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-
-    android:layout_height="wrap_content"
-    tools:context="com.piinktecknology.chenyu.androidwiiovision.RecyclerAdapter">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_item"
+    android:layout_width="150dp"
+    android:layout_height="150dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/photobtn" />
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
 
-</LinearLayout>
+    <CheckBox
+        android:id="@+id/checkboxItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewItem"
+        android:layout_alignEnd="@+id/imageViewItem"
+        android:layout_marginEnd="15dp"
+        android:clickable="false" />
+</RelativeLayout>
 

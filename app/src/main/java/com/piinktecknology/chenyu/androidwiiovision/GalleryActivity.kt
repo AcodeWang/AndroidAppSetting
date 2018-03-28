@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class GalleryActivity : AppCompatActivity() {
 
@@ -23,11 +24,12 @@ class GalleryActivity : AppCompatActivity() {
         //val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + intent.getStringExtra("rootPath") + "/" + intent.getStringExtra("photoPath"))
         val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + "D" + "/" + "Default")
         val photoFiles = photoDir.listFiles()
+        val photoList = ArrayList<File>(photoFiles.asList())
 
         gridLayoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = gridLayoutManager
 
-        adapter = RecyclerAdapter(photoFiles)
+        adapter = RecyclerAdapter(photoList)
         recyclerView.adapter = adapter
 
         galleryPhotoButton.setOnClickListener {
@@ -35,6 +37,14 @@ class GalleryActivity : AppCompatActivity() {
             intent.setAction("clickPhotoBtn")
             startActivity(intent)
             finish()
+        }
+
+        galleryTrashButton.setOnClickListener{
+            adapter.romoveChoosenItem()
+        }
+
+        galleryTransferButton.setOnClickListener{
+            Log.d("D", photoList.size.toString())
         }
     }
 
