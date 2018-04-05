@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -21,8 +22,7 @@ class GalleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
 
-        //val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + intent.getStringExtra("rootPath") + "/" + intent.getStringExtra("photoPath"))
-        val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + "D" + "/" + "Default")
+        val photoDir = getExternalFilesDir(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("fullPath",""))
         val photoFiles = photoDir.listFiles()
         val photoList = ArrayList<File>(photoFiles.asList())
 
@@ -44,7 +44,15 @@ class GalleryActivity : AppCompatActivity() {
         }
 
         galleryTransferButton.setOnClickListener{
-            Log.d("D", photoList.size.toString())
+
+            val photoPathList = ArrayList<String>()
+            for (file in photoList){
+                photoPathList.add(file.absolutePath)
+            }
+
+            val intent = Intent(applicationContext, TransferActivity::class.java)
+            intent.putStringArrayListExtra("photoPathList", photoPathList)
+            startActivity(intent)
         }
     }
 

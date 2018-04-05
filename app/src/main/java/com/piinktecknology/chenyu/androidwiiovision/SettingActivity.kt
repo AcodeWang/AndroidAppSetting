@@ -21,7 +21,7 @@ class SettingActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.acitivity_setting)
 
-        //val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().clear().commit()
+        //PreferenceManager.getDefaultSharedPreferences(applicationContext).edit().clear().commit()
 
         // Display the fragment as the main content.
         fragmentManager.beginTransaction().replace(android.R.id.content, SettingFragment()).commit()

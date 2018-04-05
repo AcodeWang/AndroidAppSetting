@@ -21,8 +21,9 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         addPreferencesFromResource(R.xml.preference)
 
         for((key, value) in preferenceScreen.sharedPreferences.all){
-            findPreference(key).setSummary(value.toString())
+           findPreference(key).setSummary(value.toString())
         }
+
     }
 
     override fun onResume() {

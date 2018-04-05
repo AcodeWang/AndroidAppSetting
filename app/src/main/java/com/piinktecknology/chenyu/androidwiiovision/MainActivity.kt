@@ -1,7 +1,9 @@
 package com.piinktecknology.chenyu.androidwiiovision
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -18,10 +20,11 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     var profileName = ""
-    var photoPath = ""
     var rootPath = ""
     var mCurrentPhotoPath = ""
     val REQUEST_TAKE_PHOTO= 1
+
+    lateinit var sharedPreference : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,20 +35,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
         //PhotoButton Click, check the root and file dir, start image capture activity
         photoButton.setOnClickListener(){
 
             //Set the photo path as the profile name
             profileName = profileNameEditText.text.toString()
             if(profileName.equals("")) {
-                photoPath = "Default"
-            }
-            else{
-                photoPath = profileName
+                profileName = "Default"
             }
 
-            checkPathMakeDir(photoPath)
-            takePhoto(photoPath)
+            checkPathMakeDir(profileName)
+            takePhoto(profileName)
         }
 
 
@@ -59,28 +61,30 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
-            takePhoto(photoPath)
+            takePhoto(profileName)
         }
         else if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_CANCELED){
             //Delete the very last image when return from the capture
             val lastFile = File(mCurrentPhotoPath)
             lastFile.delete()
 
-            val photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + photoPath)
-            Log.d("datacount", photoDir.listFiles().size.toString())
+            val photoDir = getExternalFilesDir(sharedPreference.getString("fullPath",""))
+
             if(photoDir.listFiles().size > 0){
                 val intent = Intent(applicationContext, GalleryActivity::class.java)
-                intent.putExtra("rootPath",rootPath)
-                intent.putExtra("photoPath", photoPath)
                 startActivity(intent)
                 finish()
+            }
+            else{
+                val tempFile = getExternalFilesDir(sharedPreference.getString("fullPath",""))
+                tempFile.delete()
             }
         }
     }
 
-    fun checkPathMakeDir( path: String) {
+    fun checkPathMakeDir( fileName: String) {
 
-        rootPath = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("transfer_root", "")
+        rootPath = sharedPreference.getString("transfer_root", "")
 
         if(rootPath.equals("")){
             rootPath = "DEFAULT"
@@ -94,10 +98,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else{
-            val newFile = File(Environment.DIRECTORY_PICTURES + "/" + rootPath)
+            File(Environment.DIRECTORY_PICTURES + "/" + rootPath)
         }
 
-        val fullPathFile = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
+        val fullPathFile = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName)
         //check the profile path and make dir if not existed
         if(fullPathFile.exists()){
             if(!fullPathFile.isDirectory){
@@ -105,8 +109,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else{
-            val newFile = File(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
+            File(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName)
         }
+
+
+        sharedPreference.edit().putString("fullPath", Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName).commit()
     }
 
     //Start the IMAGE_CAPTURE activity and save the captured photo by file provider

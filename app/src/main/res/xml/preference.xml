@@ -43,11 +43,20 @@
             android:entryValues="@array/language_value"
             android:key="language"
             android:title="Language" />
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/language_value"
-            android:entryValues="@array/language"
-            android:key="list_preference_1"
-            android:title="List prefer" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Other setting">
+        <PreferenceScreen android:title="Others">
+            <EditTextPreference
+                android:defaultValue="default"
+                android:key="fullPath"
+                android:summary="default"
+                android:title="fullPath"
+                android:visibility="gone"
+                android:enabled="false"/>
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
+
+
+
