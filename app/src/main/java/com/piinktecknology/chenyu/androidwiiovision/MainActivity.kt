@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         settingButton.setOnClickListener(){
-            val intent = Intent(applicationContext, SettingActivity::class.java)
-            startActivity(intent)
+
+            LoginDialogFragment().show(fragmentManager,"LoginDialog")
         }
 
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
@@ -47,12 +47,25 @@ class MainActivity : AppCompatActivity() {
             }
 
             checkPathMakeDir(profileName)
-            takePhoto(profileName)
+
+            val photoDir = getExternalFilesDir(sharedPreference.getString("fullPath",""))
+
+            if(photoDir.listFiles().size > 0){
+                val intent = Intent(applicationContext, GalleryActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                takePhoto(profileName)
+            }
         }
 
 
         if(intent.action == "clickPhotoBtn") {
-            photoButton.performClick()
+
+            profileName = sharedPreference.getString("fullPath","").split("/").last()
+            takePhoto(profileName)
+
+//            photoButton.performClick()
         }
     }
 
@@ -112,8 +125,7 @@ class MainActivity : AppCompatActivity() {
             File(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName)
         }
 
-
-        sharedPreference.edit().putString("fullPath", Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName).commit()
+        sharedPreference.edit().putString("fullPath", Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + fileName).apply()
     }
 
     //Start the IMAGE_CAPTURE activity and save the captured photo by file provider
@@ -141,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         // Create an image file name
         val timeStamp = SimpleDateFormat("ddMMyyyy_HHmmss").format(Date())
         val imageFileName = timeStamp
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + rootPath + "/" + path)
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + sharedPreference.getString("transfer_root", "") + "/" + path)
         val image = File.createTempFile(
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */

@@ -2,6 +2,8 @@ package com.piinktecknology.chenyu.androidwiiovision
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.media.Image
 import android.provider.ContactsContract
 import android.support.v7.widget.GridLayoutManager
@@ -49,13 +51,13 @@ class RecyclerAdapter(val photoFils : ArrayList<File>)  : RecyclerView.Adapter<R
     }
 
 
-    class PhotoHolder(v: View, photoList:ArrayList<PhotoHolder>) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
+    class PhotoHolder(v: View, choosenPhotos:ArrayList<PhotoHolder>) : RecyclerView.ViewHolder(v), View.OnClickListener, View.OnLongClickListener {
 
         var view: View = v
         var imageView = v.imageViewItem
         var checkBox = v.checkboxItem
         lateinit var photoPath:String
-        var photoList = photoList
+        var choosenPhotos = choosenPhotos
 
         init {
             v.setOnClickListener(this)
@@ -75,9 +77,19 @@ class RecyclerAdapter(val photoFils : ArrayList<File>)  : RecyclerView.Adapter<R
         }
 
         override fun onLongClick(v: View?): Boolean {
-            checkBox.visibility = View.VISIBLE
-            checkBox.isChecked = true
-            photoList.add(this)
+
+            if(checkBox.visibility == View.VISIBLE){
+                checkBox.visibility = View.INVISIBLE
+                imageView.clearColorFilter()
+                choosenPhotos.remove(this)
+            }
+            else{
+                checkBox.visibility = View.VISIBLE
+                imageView.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                choosenPhotos.add(this)
+            }
+
+            checkBox.isChecked = !checkBox.isChecked
             return true
         }
 

@@ -24,6 +24,22 @@
             android:entryValues="@array/transfer_mode"
             android:key="transfer_mode"
             android:title="Transfer Mode" />
+        <PreferenceScreen android:title="Login">
+            <EditTextPreference
+                android:defaultValue="admin"
+                android:summary="admin"
+                android:key="login_user"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Login User" />
+            <EditTextPreference
+                android:defaultValue="password"
+                android:summary="password"
+                android:key="login_password"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="Login password" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Image Setting">

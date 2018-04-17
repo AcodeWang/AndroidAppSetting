@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -45,14 +46,20 @@ class GalleryActivity : AppCompatActivity() {
 
         galleryTransferButton.setOnClickListener{
 
-            val photoPathList = ArrayList<String>()
-            for (file in photoList){
-                photoPathList.add(file.absolutePath)
+            if(adapter.choosenPhotos.size != 0){
+                Toast.makeText(this,"Please remove or release the selected photo before transfer",Toast.LENGTH_LONG).show()
             }
+            else{
+                val photoPathList = ArrayList<String>()
+                for (file in photoList){
+                    photoPathList.add(file.absolutePath)
+                }
 
-            val intent = Intent(applicationContext, TransferActivity::class.java)
-            intent.putStringArrayListExtra("photoPathList", photoPathList)
-            startActivity(intent)
+                val intent = Intent(applicationContext, TransferActivity::class.java)
+                intent.putStringArrayListExtra("photoPathList", photoPathList)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

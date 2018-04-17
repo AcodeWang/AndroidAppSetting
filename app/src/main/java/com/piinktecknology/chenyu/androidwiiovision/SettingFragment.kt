@@ -21,7 +21,14 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         addPreferencesFromResource(R.xml.preference)
 
         for((key, value) in preferenceScreen.sharedPreferences.all){
-           findPreference(key).setSummary(value.toString())
+
+            when{
+                key.contains("password") ->
+                        findPreference(key).setSummary("********")
+                else ->
+                    findPreference(key).setSummary(value.toString())
+            }
+
         }
 
     }
@@ -40,6 +47,13 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
 
         val changedPreferenced = this.findPreference(key)
-        changedPreferenced.setSummary(sharedPreferences.getString(key,""))
+
+        when{
+            key?.contains("password")!! ->
+                changedPreferenced.setSummary("********")
+            else ->
+                changedPreferenced.setSummary(sharedPreferences.getString(key,""))
+        }
+
     }
 }
