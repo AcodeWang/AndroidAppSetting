@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceManager
 import android.util.Log
+import java.util.*
+import android.content.Intent
+
+
 
 
 /**
@@ -25,6 +29,18 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
             when{
                 key.contains("password") ->
                         findPreference(key).setSummary("********")
+                key.equals("language") ->
+                {
+                    if(value.toString().equals("en")){
+                        resources.configuration.setLocale(Locale.ENGLISH)
+                        findPreference(key).setSummary("English")
+
+                    }
+                    else if (value.toString().equals("fr")){
+                        resources.configuration.setLocale(Locale.FRANCE)
+                        findPreference(key).setSummary("Français")
+                    }
+                }
                 else ->
                     findPreference(key).setSummary(value.toString())
             }
@@ -51,9 +67,29 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
         when{
             key?.contains("password")!! ->
                 changedPreferenced.setSummary("********")
+            key?.equals("language") ->
+            {
+                var language = sharedPreferences.getString(key,"")
+
+                if(language.equals("en")){
+                    resources.configuration.setLocale(Locale.ENGLISH)
+                    changedPreferenced.setSummary("English")
+
+                }
+                else if (language.equals("fr")){
+                    resources.configuration.setLocale(Locale.FRANCE)
+                    changedPreferenced.setSummary("Français")
+                }
+
+                activity.finish()
+                val intent = Intent(activity,activity::class.java)
+                startActivity(intent)
+
+                resources.updateConfiguration(resources.configuration,resources.displayMetrics)
+            }
             else ->
                 changedPreferenced.setSummary(sharedPreferences.getString(key,""))
         }
-
     }
+
 }

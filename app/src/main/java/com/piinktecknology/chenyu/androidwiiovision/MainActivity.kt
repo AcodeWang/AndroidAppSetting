@@ -74,7 +74,10 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
-            takePhoto(profileName)
+//            takePhoto(profileName)
+            val intent = Intent(applicationContext, GalleryActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         else if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_CANCELED){
             //Delete the very last image when return from the capture

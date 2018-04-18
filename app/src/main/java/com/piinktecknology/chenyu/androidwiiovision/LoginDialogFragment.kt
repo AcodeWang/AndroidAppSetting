@@ -32,7 +32,7 @@ class LoginDialogFragment : DialogFragment(){
 
         val view = inflater.inflate(R.layout.fragment_login_dialog, null)
         builder.setView(view)
-                .setPositiveButton("OK", DialogInterface.OnClickListener{dialog, which ->
+                .setPositiveButton(R.string.submit, DialogInterface.OnClickListener{dialog, which ->
 
                     if(view.loginUserName.text.toString().equals("")){
                         view.loginUserName.setText("Admin")
@@ -51,7 +51,7 @@ class LoginDialogFragment : DialogFragment(){
                         Toast.makeText(activity,"Please",Toast.LENGTH_SHORT).show()
                     }
                 })
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener{dialog, which ->
+                .setNegativeButton(R.string.notsub, DialogInterface.OnClickListener{dialog, which ->
                     println("no")
                 })
 

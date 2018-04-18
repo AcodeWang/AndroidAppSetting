@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -19,10 +20,13 @@ import kotlinx.android.synthetic.main.activity_transfer.*
 import kotlinx.android.synthetic.main.fragment_header.*
 import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import kotlin.concurrent.thread
+import android.graphics.Bitmap.CompressFormat
+import java.io.*
+import android.graphics.Bitmap
+
+
+
 
 class TransferActivity : AppCompatActivity() {
 
@@ -57,7 +61,6 @@ class TransferActivity : AppCompatActivity() {
                 println("mode FTP")
             "HTTP"->
                 println("mode HTTP")
-
         }
 
         if(transferMode == "FTP"){
@@ -135,8 +138,21 @@ class TransferActivity : AppCompatActivity() {
         val photosNum = photoPathList.size
         var photoCount = 0
 
+        var quality = 100
+
         override fun onPreExecute() {
             super.onPreExecute()
+
+            try{
+                quality = sharedPreference.getString("photo_quality", "100").toInt()
+            }
+            catch (e : Exception){
+
+            }
+
+            if (!(quality >= 0 && quality <= 100)){
+                quality = 100
+            }
         }
 
         @Override
@@ -148,44 +164,58 @@ class TransferActivity : AppCompatActivity() {
             }
             catch (e:Exception){
                 Log.e("exp", e.toString())
+                return false
             }
 
             val user = sharedPreference.getString("login_user","")
             val password = sharedPreference.getString("login_password","")
 
-            if(ftpClient.login(user, password)){
+            try{
+                if(ftpClient.login(user, password)){
 
-                ftpClient.enterLocalPassiveMode()
-                ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
+                    ftpClient.enterLocalPassiveMode()
+                    ftpClient.setFileType(FTP.BINARY_FILE_TYPE)
 
-                //Check the root directory exist and change work directory
+                    //Check the root directory exist and change work directory
 
-                checkRomotePahtCWD(ftpClient,transferRootPath)
-                checkRomotePahtCWD(ftpClient, fullPath.split("/").last())
+                    checkRomotePahtCWD(ftpClient,transferRootPath)
+                    checkRomotePahtCWD(ftpClient, fullPath.split("/").last())
 
+                    for(photoPath in photoPathList){
+                        val photoFile = File(photoPath)
 
+                        val bmp = BitmapFactory.decodeFile(photoPath)
+                        val bos = ByteArrayOutputStream()
+                        bmp.compress(CompressFormat.JPEG, quality, bos)
+                        val bitmapData = bos.toByteArray()
+                        val bis = ByteArrayInputStream(bitmapData)
 
-                for(photoPath in photoPathList){
-                    val photoFile = File(photoPath)
-                    val fileStream = FileInputStream(photoFile)
-                    val result =ftpClient.storeFile(photoFile.name, fileStream)
+//                        val fileStream = FileInputStream(photoFile)
+//                        val result =ftpClient.storeFile(photoFile.name, fileStream)
+                        val result =ftpClient.storeFile(photoFile.name, bis)
 
-                    if(result){
-                        Thread(Runnable {
-                            copyFile(photoFile, File(archivePath + "/" + photoFile.name))
-                            photoFile.delete()
-                        }).start()
+                        if(result){
+                            Thread(Runnable {
+                                copyFile(photoFile, File(archivePath + "/" + photoFile.name))
+                                photoFile.delete()
+                            }).start()
+                        }
+//                        fileStream.close()
+                        bis.close()
+
+                        photoCount++
+                        onProgressUpdate(100 * photoCount / photosNum)
                     }
-                    fileStream.close()
-                    photoCount++
-                    onProgressUpdate(100 * photoCount / photosNum)
-                }
 
-                ftpClient.logout();
-                ftpClient.disconnect();
-                return true
-            }
-            else{
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                    return true
+                }
+                else{
+                    return false
+                }
+            } catch (e:Exception){
+                Log.e("exp", e.toString())
                 return false
             }
         }
@@ -211,7 +241,11 @@ class TransferActivity : AppCompatActivity() {
                 Toast.makeText(this@TransferActivity,"Transfer success", Toast.LENGTH_LONG).show()
             }
             else{
-                Toast.makeText(this@TransferActivity,"Transfer failed", Toast.LENGTH_LONG).show()
+                val intent = Intent(this@TransferActivity, GalleryActivity::class.java)
+                startActivity(intent)
+                finish()
+
+                Toast.makeText(this@TransferActivity,"Transfer failed. Please check the server connection", Toast.LENGTH_LONG).show()
             }
         }
     }

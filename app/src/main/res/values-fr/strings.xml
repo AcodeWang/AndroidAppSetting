@@ -7,7 +7,7 @@
 
     <string name="photo_quality">100</string>
 
-    <string name="login_user_hint">User</string>
-    <string name="submit">OK</string>
-    <string name="notsub">Cancel</string>
+    <string name="login_user_hint">Utilisateur</string>
+    <string name="submit">Oui</string>
+
 </resources>

@@ -45,16 +45,16 @@
     <PreferenceCategory android:title="Image Setting">
 
         <EditTextPreference
-            android:defaultValue="100"
-            android:key="image_size_limit"
+            android:defaultValue="@string/photo_quality"
+            android:key="photo_quality"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Image Size Limit" />
+            android:title="Image quality (0-100)%" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Language Setting">
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="en"
             android:entries="@array/language"
             android:entryValues="@array/language_value"
             android:key="language"
