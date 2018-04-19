@@ -46,13 +46,13 @@ class GalleryActivity : AppCompatActivity() {
 
         galleryTransferButton.setOnClickListener{
 
-            if(adapter.choosenPhotos.size != 0){
-                Toast.makeText(this,"Please remove or release the selected photo before transfer",Toast.LENGTH_LONG).show()
+            if(adapter.choosenPhotos.size == 0){
+                Toast.makeText(this,R.string.select_photo,Toast.LENGTH_LONG).show()
             }
             else{
                 val photoPathList = ArrayList<String>()
-                for (file in photoList){
-                    photoPathList.add(file.absolutePath)
+                for (photoHolder in adapter.choosenPhotos){
+                    photoPathList.add(photoHolder.photoPath)
                 }
 
                 val intent = Intent(applicationContext, TransferActivity::class.java)

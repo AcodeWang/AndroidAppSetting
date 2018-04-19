@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Camera
+import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CameraManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -37,6 +40,15 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
+        if(sharedPreference.getString("language", "").equals("en")){
+            resources.configuration.setLocale(Locale.ENGLISH)
+        }
+        else if (sharedPreference.getString("language", "").equals("fr")){
+            resources.configuration.setLocale(Locale.FRANCE)
+        }
+
+        resources.updateConfiguration(resources.configuration,resources.displayMetrics)
+
         //PhotoButton Click, check the root and file dir, start image capture activity
         photoButton.setOnClickListener(){
 
@@ -59,13 +71,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         if(intent.action == "clickPhotoBtn") {
-
             profileName = sharedPreference.getString("fullPath","").split("/").last()
             takePhoto(profileName)
-
-//            photoButton.performClick()
         }
     }
 
@@ -142,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                         "com.example.android.fileprovider",
                         photoFile)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
             catch (e: IOException){

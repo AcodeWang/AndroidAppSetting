@@ -2,74 +2,79 @@
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Data Transfer Setting">\
+    <PreferenceCategory android:title="@string/transfer_setting">\
         <EditTextPreference
             android:defaultValue="@string/transfer_root"
             android:key="transfer_root"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/transfer_root"
-            android:title="Transfer Root Path" />
+            android:title="@string/transfer_root_path" />
         <EditTextPreference
             android:defaultValue="@string/transfer_ip"
             android:summary="@string/transfer_ip"
             android:key="transfer_ip"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="IP Address" />
+            android:title="@string/ip_address" />
         <ListPreference
             android:defaultValue="@string/transfer_mode"
             android:summary="@string/transfer_mode"
             android:entries="@array/transfer_mode"
             android:entryValues="@array/transfer_mode"
             android:key="transfer_mode"
-            android:title="Transfer Mode" />
-        <PreferenceScreen android:title="Login">
+            android:title="@string/transfer_mode_name" />
+        <PreferenceScreen android:title="@string/Login">
             <EditTextPreference
                 android:defaultValue="admin"
                 android:summary="admin"
                 android:key="login_user"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Login User" />
+                android:title="@string/user" />
             <EditTextPreference
                 android:defaultValue="password"
                 android:summary="password"
                 android:key="login_password"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:title="Login password" />
+                android:title="@string/password" />
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Image Setting">
-
-        <EditTextPreference
-            android:defaultValue="@string/photo_quality"
-            android:key="photo_quality"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="Image quality (0-100)%" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Language Setting">
+    <PreferenceCategory android:title="@string/language_setting">
         <ListPreference
             android:defaultValue="en"
             android:entries="@array/language"
             android:entryValues="@array/language_value"
             android:key="language"
-            android:title="Language" />
+            android:title="@string/language" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Other setting">
-        <PreferenceScreen android:title="Others">
+    <PreferenceCategory android:title="@string/image_setting">
+        <EditTextPreference
+            android:defaultValue="@string/photo_quality"
+            android:key="photo_quality"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/image_quality" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other_setting">
+        <PreferenceScreen android:title="@string/others">
             <EditTextPreference
                 android:defaultValue="default"
                 android:key="fullPath"
                 android:summary="default"
-                android:title="fullPath"
+                android:title="@string/full_path"
                 android:visibility="gone"
                 android:enabled="false"/>
+            <PreferenceCategory android:title="@string/clear_memory_warning">
+                <Preference
+                    android:defaultValue="default"
+                    android:key="clear_memory"
+                    android:title="@string/clear_memory" />
+            </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

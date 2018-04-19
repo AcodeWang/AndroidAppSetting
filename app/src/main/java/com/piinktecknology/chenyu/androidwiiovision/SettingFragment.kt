@@ -8,8 +8,10 @@ import android.preference.PreferenceManager
 import android.util.Log
 import java.util.*
 import android.content.Intent
-
-
+import android.os.Environment
+import android.widget.Toast
+import android.R.attr.path
+import java.io.IOException
 
 
 /**
@@ -40,13 +42,31 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
                         resources.configuration.setLocale(Locale.FRANCE)
                         findPreference(key).setSummary("Français")
                     }
+
+                    resources.updateConfiguration(resources.configuration,resources.displayMetrics)
+
+                }
+                key.equals("clear_memory") -> {
+                    findPreference(key).setOnPreferenceClickListener(Preference.OnPreferenceClickListener {
+
+                        val file = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                        if (file.exists()) {
+                            val deleteCmd = "rm -r " + file.path
+                            val runtime = Runtime.getRuntime()
+                            try {
+                                runtime.exec(deleteCmd)
+                            } catch (e: IOException) {
+                            }
+                        }
+                        Toast.makeText(activity, R.string.clear_memory_success, Toast.LENGTH_LONG).show()
+                        true
+                    })
                 }
                 else ->
                     findPreference(key).setSummary(value.toString())
             }
 
         }
-
     }
 
     override fun onResume() {
@@ -86,6 +106,9 @@ class SettingFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferen
                 startActivity(intent)
 
                 resources.updateConfiguration(resources.configuration,resources.displayMetrics)
+            }
+            key.equals("clear_memory") -> {
+
             }
             else ->
                 changedPreferenced.setSummary(sharedPreferences.getString(key,""))

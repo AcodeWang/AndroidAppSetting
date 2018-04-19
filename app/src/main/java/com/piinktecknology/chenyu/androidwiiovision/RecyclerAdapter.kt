@@ -67,6 +67,7 @@ class RecyclerAdapter(val photoFils : ArrayList<File>)  : RecyclerView.Adapter<R
 
         fun bindPhoto(){
             Picasso.get().load(File(photoPath)).resize(200,240).into(imageView)
+            imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
         }
 
         override fun onClick(v: View) {
@@ -80,13 +81,13 @@ class RecyclerAdapter(val photoFils : ArrayList<File>)  : RecyclerView.Adapter<R
 
             if(checkBox.visibility == View.VISIBLE){
                 checkBox.visibility = View.INVISIBLE
-                imageView.clearColorFilter()
                 choosenPhotos.remove(this)
+                imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
             }
             else{
                 checkBox.visibility = View.VISIBLE
-                imageView.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
                 choosenPhotos.add(this)
+                imageView.clearColorFilter()
             }
 
             checkBox.isChecked = !checkBox.isChecked

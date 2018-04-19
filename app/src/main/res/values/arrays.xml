@@ -7,7 +7,7 @@
 
     <string-array name="language">
         <item>English</item>
-        <item>Francais</item>
+        <item>français</item>
     </string-array>
 
     <string-array name="language_value">
@@ -15,4 +15,15 @@
         <item>fr</item>
         <item>cn</item>
     </string-array>
+
+    <string-array name="clear_memory">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="clear_memory_value">
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
+
 </resources>

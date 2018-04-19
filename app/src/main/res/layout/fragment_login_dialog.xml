@@ -11,7 +11,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/login_user_hint"/>
+        android:hint="@string/user"/>
 
     <EditText
         android:id="@+id/loginPassword"
@@ -22,7 +22,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
         android:fontFamily="sans-serif"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
 </LinearLayout>

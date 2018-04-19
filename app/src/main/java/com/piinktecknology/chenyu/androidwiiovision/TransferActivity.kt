@@ -234,18 +234,38 @@ class TransferActivity : AppCompatActivity() {
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
             if(result){
+
+                var trashPath = "Archive" + "/" + sharedPreference.getString("transfer_root", "") + "/" + sharedPreference.getString("fullPath","").split("/").last() + "/" + "Trash"
+
+                if( checkPathMakeDir(trashPath)){
+
+                    trashPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + trashPath).path
+
+                    for (file in getExternalFilesDir(fullPath).listFiles()){
+                        try{
+                            copyFile(file, File(trashPath + "/"+ file.name))
+                            file.delete()
+                        }
+                        catch (e:Exception){
+
+                        }
+                    }
+                }
+
+                getExternalFilesDir(fullPath).delete()
+
                 val intent = Intent(this@TransferActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
 
-                Toast.makeText(this@TransferActivity,"Transfer success", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TransferActivity,R.string.transfer_success, Toast.LENGTH_LONG).show()
             }
             else{
                 val intent = Intent(this@TransferActivity, GalleryActivity::class.java)
                 startActivity(intent)
                 finish()
 
-                Toast.makeText(this@TransferActivity,"Transfer failed. Please check the server connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TransferActivity,R.string.transfer_failed, Toast.LENGTH_LONG).show()
             }
         }
     }

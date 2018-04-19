@@ -1,13 +1,35 @@
 <resources>
     <string name="app_name">WiioVision</string>
 
+    <string name="transfer_setting">Transfer Setting</string>
+    <string name="transfer_root_path">Root Path</string>
+    <string name="ip_address">IP Address</string>
+    <string name="transfer_mode_name">Transfer Mode</string>
+    <string name="Login">Login</string>
+    <string name="language_setting">Language Setting</string>
+    <string name="language">Language</string>
+    <string name="image_setting">Image Setting</string>
+    <string name="image_quality">Image quality (0-100)%</string>
+    <string name="other_setting">Ohter settings</string>
+    <string name="others">Others</string>
+    <string name="full_path">Full Path</string>
+    <string name="clear_memory">Clear Memory</string>
+
+    <string name="user">User</string>
+    <string name="password">Password</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="login_not_ok">Incorrect username or password</string>
+    <string name="select_photo">Please select the photo to transfer</string>
+    <string name="transfer_success">Transfer Success</string>
+    <string name="transfer_failed">Transfer failed. Please check the server connection</string>
+    <string name="clear_memory_warning">Warning! This button will delete all archived photo!</string>
+    <string name="clear_memory_success">All the archived photos will be deleted</string>
+
     <string name="transfer_ip">192.168.0.1</string>
     <string name="transfer_root">Default</string>
     <string name="transfer_mode">FTP</string>
-
     <string name="photo_quality">100</string>
-
-    <string name="login_user_hint">User</string>
-    <string name="submit">OK</string>
-    <string name="notsub">Cancel</string>
 </resources>
