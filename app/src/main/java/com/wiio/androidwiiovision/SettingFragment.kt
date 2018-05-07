@@ -1,16 +1,14 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.content.SharedPreferences
 import android.preference.PreferenceFragment
 import android.os.Bundle
 import android.preference.Preference
-import android.preference.PreferenceManager
-import android.util.Log
 import java.util.*
 import android.content.Intent
 import android.os.Environment
 import android.widget.Toast
-import android.R.attr.path
+import com.wiio.androidwiiovision.R
 import java.io.IOException
 
 

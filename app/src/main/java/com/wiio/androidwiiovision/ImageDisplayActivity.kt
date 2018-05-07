@@ -1,8 +1,9 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.graphics.*
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.activity_image_display.*
 
 class ImageDisplayActivity : AppCompatActivity() {

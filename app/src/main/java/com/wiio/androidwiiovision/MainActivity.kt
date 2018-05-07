@@ -1,19 +1,15 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Camera
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
-import android.util.Log
+import android.widget.Toast
+import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -32,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        profileNameEditText.setText(intent.getStringExtra("wiioparam"))
 
         settingButton.setOnClickListener(){
 
@@ -55,7 +53,8 @@ class MainActivity : AppCompatActivity() {
             //Set the photo path as the profile name
             profileName = profileNameEditText.text.toString()
             if(profileName.equals("")) {
-                profileName = "Default"
+                Toast.makeText(this, R.string.profile_name_null,Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             }
 
             checkPathMakeDir(profileName)

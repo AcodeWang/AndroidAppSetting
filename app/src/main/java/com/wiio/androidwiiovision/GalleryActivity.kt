@@ -1,17 +1,13 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
-import android.app.Fragment
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.preference.PreferenceManager
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.widget.Toast
+import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.activity_gallery.*
-import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 class GalleryActivity : AppCompatActivity() {
@@ -47,7 +43,7 @@ class GalleryActivity : AppCompatActivity() {
         galleryTransferButton.setOnClickListener{
 
             if(adapter.choosenPhotos.size == 0){
-                Toast.makeText(this,R.string.select_photo,Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.select_photo,Toast.LENGTH_LONG).show()
             }
             else{
                 val photoPathList = ArrayList<String>()

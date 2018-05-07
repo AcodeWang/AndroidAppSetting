@@ -27,6 +27,7 @@
     <string name="transfer_failed">Transfer failed. Please check the server connection</string>
     <string name="clear_memory_warning">Warning! This button will delete all archived photo!</string>
     <string name="clear_memory_success">All the archived photos will be deleted</string>
+    <string name="profile_name_null">Please enter the file name</string>
 
     <string name="transfer_ip">192.168.0.1</string>
     <string name="transfer_root">Default</string>

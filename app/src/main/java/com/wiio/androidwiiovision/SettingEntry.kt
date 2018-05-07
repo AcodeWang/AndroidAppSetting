@@ -1,4 +1,4 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 /**
  * Created by chenyu on 21/03/2018.

@@ -1,9 +1,10 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.preference.PreferenceManager
+import com.wiio.androidwiiovision.R
+import com.wiio.androidwiiovision.SettingActivity
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.robolectric.*
 import org.junit.Test

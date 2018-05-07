@@ -1,4 +1,4 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater

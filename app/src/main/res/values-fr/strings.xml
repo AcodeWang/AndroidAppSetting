@@ -13,7 +13,7 @@
     <string name="other_setting">Autre</string>
     <string name="others">Autre</string>
     <string name="full_path">Chemin complet</string>
-    <string name="clear_memory">Librer la mémoire</string>
+    <string name="clear_memory">Libérer la mémoire</string>
 
     <string name="user">Utilisateur</string>
     <string name="password">Mot de passe</string>
@@ -27,4 +27,6 @@
     <string name="transfer_failed">Le transfert a échoué. Veuillez vérifier la connexion au serveur</string>
     <string name="clear_memory_warning">Attention! Ce bouton va supprimer toutes les photos archivées!</string>
     <string name="clear_memory_success">Toutes les photos archivées seront supprimées</string>
+
+    <string name="profile_name_null">Veuillez entrer le nom du fichier</string>
 </resources>

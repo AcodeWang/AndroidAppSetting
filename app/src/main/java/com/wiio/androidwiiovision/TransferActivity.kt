@@ -1,8 +1,5 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
-import android.app.Application
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
@@ -11,8 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.support.annotation.UiThread
-import android.support.v4.app.ActivityCompat
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -20,12 +15,9 @@ import kotlinx.android.synthetic.main.activity_transfer.*
 import kotlinx.android.synthetic.main.fragment_header.*
 import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
-import kotlin.concurrent.thread
 import android.graphics.Bitmap.CompressFormat
 import java.io.*
-import android.graphics.Bitmap
-
-
+import com.wiio.androidwiiovision.R
 
 
 class TransferActivity : AppCompatActivity() {
@@ -258,14 +250,14 @@ class TransferActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
 
-                Toast.makeText(this@TransferActivity,R.string.transfer_success, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TransferActivity, R.string.transfer_success, Toast.LENGTH_LONG).show()
             }
             else{
                 val intent = Intent(this@TransferActivity, GalleryActivity::class.java)
                 startActivity(intent)
                 finish()
 
-                Toast.makeText(this@TransferActivity,R.string.transfer_failed, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@TransferActivity, R.string.transfer_failed, Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -9,7 +9,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_login_dialog.*
+import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.fragment_login_dialog.view.*
 
 class LoginDialogFragment : DialogFragment(){
@@ -32,9 +32,9 @@ class LoginDialogFragment : DialogFragment(){
 
         val view = inflater.inflate(R.layout.fragment_login_dialog, null)
         builder.setView(view)
-                .setPositiveButton(R.string.ok, DialogInterface.OnClickListener{dialog, which ->
+                .setPositiveButton(R.string.ok, DialogInterface.OnClickListener{ dialog, which ->
 
-                    if(view.loginUserName.text.toString().equals("")){
+                    if(view.loginUserName.text.toString().equals("a")){
                         view.loginUserName.setText("Admin")
                     }
 
@@ -47,10 +47,10 @@ class LoginDialogFragment : DialogFragment(){
                         activity.startActivity(intent)
                     }
                     else{
-                        Toast.makeText(activity,R.string.login_not_ok,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, R.string.login_not_ok,Toast.LENGTH_SHORT).show()
                     }
                 })
-                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener{dialog, which ->
+                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener{ dialog, which ->
 
                 })
 

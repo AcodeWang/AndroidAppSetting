@@ -1,12 +1,10 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import com.wiio.androidwiiovision.R
 
 /**
  * Created by chenyu on 20/03/2018.
@@ -32,7 +30,7 @@ class SettingActivity : AppCompatActivity(){
         return fragmentManager.findFragmentById(android.R.id.content) as PreferenceFragment
     }
 
-    fun getSettingEntryFromSharedPreference():SettingEntry{
+    fun getSettingEntryFromSharedPreference(): SettingEntry {
 
         val mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 

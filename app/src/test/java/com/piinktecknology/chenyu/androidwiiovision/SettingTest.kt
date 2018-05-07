@@ -1,7 +1,9 @@
-package com.piinktecknology.chenyu.androidwiiovision
+package com.wiio.androidwiiovision
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.wiio.androidwiiovision.SettingActivity
+import com.wiio.androidwiiovision.SettingEntry
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +24,7 @@ class SettingTest{
     val TEST_IP = "192.168.1.31"
     val TEST_TransferMode = "HTTP"
 
-    var settingEntry = SettingEntry(TEST_Root,TEST_IP,TEST_TransferMode)
+    var settingEntry = SettingEntry(TEST_Root, TEST_IP, TEST_TransferMode)
 
     @Mock
     lateinit var setting : SettingActivity
