@@ -8,6 +8,7 @@ import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.util.Log
 import android.widget.Toast
 import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -163,13 +164,16 @@ class MainActivity : AppCompatActivity() {
     fun createPhotoFile(path: String): File {
         // Create an image file name
         val timeStamp = SimpleDateFormat("ddMMyyyy_HHmmss").format(Date())
-        val imageFileName = timeStamp
+        val imageFileName = profileName + "_" + timeStamp
+        println(imageFileName)
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/" + sharedPreference.getString("transfer_root", "") + "/" + path)
-        val image = File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir      /* directory */
-        )
+        val image = File(storageDir.toString() + "/" + imageFileName + ".jpg")
+        image.createNewFile()
+//        val image = File.createTempFile(
+//                imageFileName, /* prefix */
+//                ".jpg", /* suffix */
+//                storageDir      /* directory */
+//        )
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath()
         return image

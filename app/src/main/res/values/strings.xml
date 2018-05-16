@@ -13,6 +13,8 @@
     <string name="other_setting">Ohter settings</string>
     <string name="others">Others</string>
     <string name="full_path">Full Path</string>
+    <string name="export_settings">Export Settings</string>
+    <string name="import_settings">Import Settings</string>
     <string name="clear_memory">Clear Memory</string>
 
     <string name="user">User</string>
@@ -27,6 +29,8 @@
     <string name="transfer_failed">Transfer failed. Please check the server connection</string>
     <string name="clear_memory_warning">Warning! This button will delete all archived photo!</string>
     <string name="clear_memory_success">All the archived photos will be deleted</string>
+    <string name="export_settings_success">Settings successfully exported</string>
+    <string name="import_settings_success">Settings successfully imported</string>
     <string name="profile_name_null">Please enter the file name</string>
 
     <string name="transfer_ip">192.168.0.1</string>

@@ -69,6 +69,14 @@
                 android:title="@string/full_path"
                 android:visibility="gone"
                 android:enabled="false"/>
+            <Preference
+                android:defaultValue="default"
+                android:key="export_config"
+                android:title="@string/export_settings" />
+            <Preference
+                android:defaultValue="default"
+                android:key="import_config"
+                android:title="@string/import_settings" />
             <PreferenceCategory android:title="@string/clear_memory_warning">
                 <Preference
                     android:defaultValue="default"
