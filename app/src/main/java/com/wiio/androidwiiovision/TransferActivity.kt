@@ -2,7 +2,7 @@ package com.wiio.androidwiiovision
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -176,7 +176,10 @@ class TransferActivity : AppCompatActivity() {
                     for(photoPath in photoPathList){
                         val photoFile = File(photoPath)
 
-                        val bmp = BitmapFactory.decodeFile(photoPath)
+                        var bmp = BitmapFactory.decodeFile(photoPath)
+
+                        bmp = drawTextAtBitmap(bmp,photoPath.split("/").last().split(".").first(),100f,200f,160f);
+
                         val bos = ByteArrayOutputStream()
                         bmp.compress(CompressFormat.JPEG, quality, bos)
                         val bitmapData = bos.toByteArray()
@@ -260,6 +263,39 @@ class TransferActivity : AppCompatActivity() {
                 Toast.makeText(this@TransferActivity, R.string.transfer_failed, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun drawTextAtBitmap(bitmap: Bitmap, text: String,x:Float,y:Float, fontsize : Float): Bitmap {
+
+        var name = text.split("_")
+
+        val width = bitmap.width
+        val height = bitmap.height
+
+        // 创建一个和原图同样大小的位图
+        val newbit = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        val canvas = Canvas(newbit)
+
+        val paint = Paint()
+
+        // 在原始位置0，0插入原图
+        canvas.drawBitmap(bitmap, 0f, 0f, paint)
+        paint.color = Color.RED
+        paint.setTextSize(fontsize)
+
+        // 在原图指定位置写上字
+        canvas.drawText(name[0],  x, height - y, paint)
+
+        paint.setTextSize(200f)
+        canvas.drawText(name[1]+"_"+name[2],  x, height - y - 300, paint)
+
+
+        canvas.save(Canvas.ALL_SAVE_FLAG)
+
+        // 存储
+        canvas.restore()
+        return newbit
     }
 
 }

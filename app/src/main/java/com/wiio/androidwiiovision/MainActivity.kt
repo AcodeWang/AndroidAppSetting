@@ -5,19 +5,20 @@ import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.Toast
+import com.google.gson.GsonBuilder
 import com.wiio.androidwiiovision.R
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     var profileName = ""
     var rootPath = ""
@@ -75,6 +76,8 @@ class MainActivity : AppCompatActivity() {
             profileName = sharedPreference.getString("fullPath","").split("/").last()
             takePhoto(profileName)
         }
+
+        importConfigFile()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -181,4 +184,115 @@ class MainActivity : AppCompatActivity() {
 
     class PathException(override var message:String): Exception(message)
 
+
+    fun importConfigFile(){
+        try{
+
+            val configFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString(), "config.json")
+
+            if(configFile.exists()){
+                val fis = FileInputStream(configFile)
+
+                val reader = BufferedReader(InputStreamReader(fis))
+                val sb = StringBuilder()
+                var line: String? = null
+                line = reader.readLine()
+                while (line != null) {
+                    sb.append(line).append("\n")
+                    line = reader.readLine()
+                }
+                reader.close()
+
+                val jsonString:String = sb.toString()
+                fis.close()
+                val gson = GsonBuilder().create()
+                val configdata = gson.fromJson<ConfigData>(jsonString, ConfigData::class.java)
+
+                println(configdata)
+
+                val editor = sharedPreference.edit()
+                editor.putString("language", configdata.languageSetting.language)
+                editor.putString("photo_quality", configdata.imageSettingData.quality)
+                editor.putString("login_user", configdata.transferSettingData.user)
+                editor.putString("login_password",configdata.transferSettingData.password)
+                editor.putString("transfer_root", configdata.transferSettingData.root)
+                editor.putString("transfer_ip", configdata.transferSettingData.ip)
+                editor.putString("transfer_mode",configdata.transferSettingData.mode)
+                editor.commit()
+
+                Toast.makeText(this, R.string.import_settings_success, Toast.LENGTH_LONG).show()
+            }
+            else{
+                println("not ok")
+                exportConfigFile()
+            }
+        }
+        catch (e:Exception){
+            println(e)
+        }
+    }
+
+    fun exportConfigFile(){
+
+        SettingFragment().findPreference("export_config")
+
+        val languageSettingData = LanguageSettingData("")
+        val imageSettingData = ImageSettingData("")
+        val transferSettingData = TransferSettingData("","","","","")
+
+
+
+        for((key, value) in sharedPreference.all){
+
+            println("lalal")
+
+            println(key)
+            println(value)
+
+            when{
+                key.equals("language") ->{
+                    languageSettingData.language = value.toString()
+                    println(languageSettingData.language)
+                }
+                key.equals("photo_quality") ->{
+                    imageSettingData.quality = value.toString()
+                }
+                key.equals("login_user")->{
+                    transferSettingData.user = value.toString()
+                }
+                key.equals("login_password")->{
+                    transferSettingData.password = value.toString()
+                }
+                key.equals("transfer _root")->{
+                    transferSettingData.root = value.toString()
+                }
+                key.equals("transfer_ip")->{
+                    transferSettingData.ip = value.toString()
+                }
+                key.equals("transfer_mode")->{
+                    transferSettingData.mode = value.toString()
+                }
+            }
+        }
+
+        val configData = ConfigData(transferSettingData,languageSettingData,imageSettingData)
+
+        val gson = GsonBuilder().create()
+        val jsonString = gson.toJson(configData)
+        println(jsonString)
+
+//        try{
+//
+//            val configFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString(), "config.json")
+//
+//            val fos = FileOutputStream(configFile)
+//            fos.write(jsonString.toByteArray())
+//            fos.close()
+//
+//            Toast.makeText(this, R.string.export_settings_success, Toast.LENGTH_LONG).show()
+//        }
+//        catch (e:Exception){
+//            println(e)
+//        }
+    }
 }
