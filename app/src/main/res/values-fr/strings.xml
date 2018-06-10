@@ -10,7 +10,7 @@
     <string name="language">Langue</string>
     <string name="image_setting">Paramètres d\'image</string>
     <string name="image_quality">Qualité d\'image (0-100)%</string>
-    <string name="other_setting">Autre</string>
+    <string name="other_setting">Autre (N'oubliez pas d'exporter le fichier de configuration pour enregistrer les modifications)</string>
     <string name="others">Autre</string>
     <string name="full_path">Chemin complet</string>
     <string name="export_settings">Exporter les configurations</string>

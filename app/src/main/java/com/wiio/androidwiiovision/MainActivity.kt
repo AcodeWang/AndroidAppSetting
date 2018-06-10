@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity(){
                 Toast.makeText(this, R.string.import_settings_success, Toast.LENGTH_LONG).show()
             }
             else{
-                println("not ok")
                 exportConfigFile()
+                importConfigFile()
             }
         }
         catch (e:Exception){
@@ -234,46 +234,10 @@ class MainActivity : AppCompatActivity(){
 
     fun exportConfigFile(){
 
-        SettingFragment().findPreference("export_config")
+        val languageSettingData = LanguageSettingData("en")
+        val imageSettingData = ImageSettingData("100")
+        val transferSettingData = TransferSettingData("admin","password","Default","192.168.0.1","FTP")
 
-        val languageSettingData = LanguageSettingData("")
-        val imageSettingData = ImageSettingData("")
-        val transferSettingData = TransferSettingData("","","","","")
-
-
-
-        for((key, value) in sharedPreference.all){
-
-            println("lalal")
-
-            println(key)
-            println(value)
-
-            when{
-                key.equals("language") ->{
-                    languageSettingData.language = value.toString()
-                    println(languageSettingData.language)
-                }
-                key.equals("photo_quality") ->{
-                    imageSettingData.quality = value.toString()
-                }
-                key.equals("login_user")->{
-                    transferSettingData.user = value.toString()
-                }
-                key.equals("login_password")->{
-                    transferSettingData.password = value.toString()
-                }
-                key.equals("transfer _root")->{
-                    transferSettingData.root = value.toString()
-                }
-                key.equals("transfer_ip")->{
-                    transferSettingData.ip = value.toString()
-                }
-                key.equals("transfer_mode")->{
-                    transferSettingData.mode = value.toString()
-                }
-            }
-        }
 
         val configData = ConfigData(transferSettingData,languageSettingData,imageSettingData)
 
@@ -281,18 +245,17 @@ class MainActivity : AppCompatActivity(){
         val jsonString = gson.toJson(configData)
         println(jsonString)
 
-//        try{
-//
-//            val configFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString(), "config.json")
-//
-//            val fos = FileOutputStream(configFile)
-//            fos.write(jsonString.toByteArray())
-//            fos.close()
-//
-//            Toast.makeText(this, R.string.export_settings_success, Toast.LENGTH_LONG).show()
-//        }
-//        catch (e:Exception){
-//            println(e)
-//        }
+        try{
+
+            val configFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString(), "config.json")
+
+            val fos = FileOutputStream(configFile)
+            fos.write(jsonString.toByteArray())
+            fos.close()
+
+        }
+        catch (e:Exception){
+            println(e)
+        }
     }
 }

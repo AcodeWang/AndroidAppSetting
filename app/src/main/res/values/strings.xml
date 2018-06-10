@@ -10,7 +10,7 @@
     <string name="language">Language</string>
     <string name="image_setting">Image Setting</string>
     <string name="image_quality">Image quality (0-100)%</string>
-    <string name="other_setting">Ohter settings</string>
+    <string name="other_setting">Ohter settings (Remember to export the config file to save the changes)</string>
     <string name="others">Others</string>
     <string name="full_path">Full Path</string>
     <string name="export_settings">Export Settings</string>
