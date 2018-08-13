@@ -1,13 +1,18 @@
 package com.wiio.androidwiiovision
 
+import android.Manifest
+import android.annotation.TargetApi
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.Toast
@@ -19,6 +24,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity(){
+
+    val REQUEST_CAMERA = 1;
 
     var profileName = ""
     var rootPath = ""
@@ -32,6 +39,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         profileNameEditText.setText(intent.getStringExtra("wiioparam"))
+
+        checkAppPermission()
 
         settingButton.setOnClickListener(){
 
@@ -105,6 +114,69 @@ class MainActivity : AppCompatActivity(){
             else{
                 val tempFile = getExternalFilesDir(sharedPreference.getString("fullPath",""))
                 tempFile.delete()
+            }
+        }
+    }
+
+    @TargetApi(25)
+    fun checkAppPermission(){
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_CAMERA -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+        // Add other 'when' lines to check for other
+        // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
             }
         }
     }

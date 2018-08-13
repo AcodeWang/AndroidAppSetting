@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidWiioVision.iml" filepath="$PROJECT_DIR$/AndroidWiioVision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidwiiovision.iml" filepath="$PROJECT_DIR$/androidwiiovision.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
